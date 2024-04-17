@@ -21,7 +21,7 @@ python main_human.py
 
 python isMiRNA.py  -s <RNAsequence\> -m <model_path\> -f <feature\>
 
-for example: python isMiRNA.py -s CUCCGGUGCCUACUGAGCUGAUAUCAGUUC -m model/human/model_cv_human_3.pkl -f feature_data/featureSelectedModel_cv_human_3.pkl
+for example: python isMiRNA.py -s AGAAUUCUCUUAUCCAACAUCAACAUCUUGGUCAGAUUUGAACUCUUCAA -m model/human/model_cv_human_3.pkl -f feature_data/featureSelectedModel_cv_human_3.pkl
 
 python isMiRNA.py -i \<input file\> -o \<output file\>
 
