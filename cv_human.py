@@ -74,17 +74,16 @@ def cv():
   avg_ppv = np.mean(ppv_scores)
   avg_pr_ruc = np.mean(pr_auc_scores)
 
-
-  print("平均灵敏度（Sensitivity）：", avg_sensitivity)
-  print("平均特异度（Specificity）：", avg_specificity)
-  print("平均gmean:", avg_gmean)
-  print("平均F1分数（F1 Score）：", avg_f1)
-  print("平均Matthews相关系数（MCC）：", avg_mcc)
-  print("平均准确率（Accuracy）：", avg_accuracy)
-  print("平均ROC AUC：", avg_roc_auc)
-  print("平均ruc：", avg_pr_ruc)
-  print("平均ppv：", avg_ppv)
-  print("平均混淆矩阵（Confusion Matrix）：")
+  print("average Sensitivity：", avg_sensitivity)
+  print("average Specificity：", avg_specificity)
+  print("average gmean:", avg_gmean)
+  print("average F1 Score：", avg_f1)
+  print("average MCC：", avg_mcc)
+  print("average Accuracy：", avg_accuracy)
+  print("average ROC AUC：", avg_roc_auc)
+  print("average pruc：", avg_pr_ruc)
+  print("average ppv：", avg_ppv)
+  print("average Confusion Matrix：")
   print(avg_confusion_matrix)
 
 def write_to_file(model_path, sensitivity, specifity, accuracy, f1_score, mcc, roc_auc):

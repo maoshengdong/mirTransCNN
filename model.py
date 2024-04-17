@@ -50,7 +50,7 @@ class TransformerCNN(nn.Module):
 
     def forward(self, x, f):
         self.num = f.size(1)
-        x = x.permute(0, 2, 1)  # 将通道维度放在最后
+        x = x.permute(0, 2, 1)
         x = x.contiguous()
         f1 = self.bn(f)
         f2 = f1.unsqueeze(1)

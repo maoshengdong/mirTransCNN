@@ -36,19 +36,12 @@ def read_new_csv(positive,negative):
     dataset = hsa.append(pseudo)
     # shuffle the order
     dataset = shuffle(dataset,random_state = 42)
-    # 添加日志信息
+
     print("Dataset is prepared! Shape:", dataset.shape)
     # print("dataset is prepared!")
     return dataset
 
 def mfe_to_vector(mfe_value, seqs):
-    # 将自由能值归一化到一个范围，例如 -1 到 1
-    # normalized_mfe = (mfe_value - MIN_MFE) / (MAX_MFE - MIN_MFE) * 2 - 1
-    #
-    # # 将归一化后的自由能值转为 PyTorch 的张量
-    # mfe_tensor = torch.tensor(normalized_mfe, dtype=torch.float32)
-    # mfe = float(matches[0])
-    # mfes.append(mfe / len(a_seq))
     mfe_tensor = []
     for line, seq in zip(mfe_value, seqs):
         mfe_tensor.append(line / len(seq))
@@ -108,10 +101,8 @@ def seq2str(seqs):
     mfes = []
 
     for a_seq in seqs:
-        # 使用 RNAfold 工具预测二级结构
         result = subprocess.run(["RNAfold"], input=a_seq, capture_output=True, text=True)
 
-        # 获取预测的二级结构，通常在输出中可以找到包含点括号的部分
         lines = result.stdout.split('\n')
         line = lines[1]
         structure = line.split(' ')[0]
@@ -189,10 +180,10 @@ def import_pos_data(filename):
     strs,mfes = seq2str(seqs)
     features = genFeature(seqs,y)
     mfe_dataset = np.array(mfes)
-    # 将 b 转换为二维数组
+
     mfe_2d = mfe_dataset[:, np.newaxis]
 
-    # 在轴 1 上拼接 a 和 b
+
     feature_dataset = np.concatenate((mfe_2d, features), axis=1)
 
     return encode(seqs, strs),feature_dataset,Y
@@ -206,10 +197,10 @@ def import_neg_data(filename):
     strs,mfes = seq2str(seqs)
     features = genFeature(seqs,y)
     mfe_dataset = np.array(mfes)
-    # 将 b 转换为二维数组
+
     mfe_2d = mfe_dataset[:, np.newaxis]
 
-    # 在轴 1 上拼接 a 和 b
+
     feature_dataset = np.concatenate((mfe_2d, features), axis=1)
     return encode(seqs, strs),feature_dataset,Y
 
@@ -268,12 +259,12 @@ def saveBestK(K,signal):
   ensure = False
  F.close()
 def selectKImportance(model, X, signal):
- # 它获取模型中每个特征的重要性分数，并将其存储在 importantFeatures 数组中
+
  importantFeatures = model.feature_importances_
  Values = np.sort(importantFeatures)[::-1]  # SORTED
  K = importantFeatures.argsort()[::-1][:len(Values[Values > 0.00])]
  # saveBestK(K, signal)
- # 表示从数组 X 中选择所有行，但只选择列索引为 K 中所包含的列
+
  return X[:, K]
 
 def genTestFeature(X, Y, signal):
@@ -282,10 +273,10 @@ def genTestFeature(X, Y, signal):
      T = generateFeatures.gF(args, X, Y)
      X_train = T[:, :-1]
      if np.any(X_train):
-      # 如果 x_train 不为空，则执行后续操作
+
       pass
      else:
-      # 如果 x_train 为空，则跳出
+
       print("x_train is empty, exiting...")
       return X_train
      Y_train = T[:, -1]
@@ -306,11 +297,9 @@ def genTestFeature(X, Y, signal):
  else:
      data = pd.read_csv(f"./feature_data/testOptimumDataset_{signal}.csv", header=None)
      dataset_np = data.to_numpy()
-     print("测试数据集的形状:", dataset_np.shape)
+
      X = dataset_np[:, :-1]
      labels = dataset_np[:, -1]
-     print("测试数据特征的形状:", X.shape)
-     print("测试标签的形状:", labels.shape)
  return X
 
 def import_test_data(pos_file, neg_file,MAX_LEN, DIM_ENC, signal):
@@ -324,7 +313,7 @@ def import_test_data(pos_file, neg_file,MAX_LEN, DIM_ENC, signal):
     flag = "test"
     features = genTestFeature(seqs, y, signal)
     # features = evaluate(testDatasetPath, optimumDatasetPath)
-    # 在轴 1 上拼接 a 和 b
+
     feature_dataset = np.concatenate((mfe_2d, features), axis=1)
     X_dataset = encode(seqs, strs)
     X_train = one_hot_wrap(X_dataset, MAX_LEN, DIM_ENC)
@@ -339,7 +328,7 @@ def import_data(pos_file, neg_file, MAX_LEN, DIM_ENC,signal):
     mfe_dataset = np.array(mfes)
     mfe_2d = mfe_dataset[:, np.newaxis]
     features, bn_size = genFeature(seqs, y, signal)
-    # 在轴 1 上拼接 a 和 b
+
     feature_dataset = np.concatenate((mfe_2d, features), axis=1)
     X_dataset = encode(seqs, strs)
     X_train = one_hot_wrap(X_dataset, MAX_LEN, DIM_ENC)
@@ -354,7 +343,7 @@ def import_cv_val_data(file, MAX_LEN, DIM_ENC,signal):
     mfe_dataset = np.array(mfes)
     mfe_2d = mfe_dataset[:, np.newaxis]
     features = genTestFeature(seqs, y,signal)
-    # 在轴 1 上拼接 a 和 b
+
     feature_dataset = np.concatenate((mfe_2d, features), axis=1)
     X_dataset = encode(seqs, strs)
     X_train = one_hot_wrap(X_dataset, MAX_LEN, DIM_ENC)
@@ -368,7 +357,7 @@ def import_cv_data(file, MAX_LEN, DIM_ENC,signal):
     mfe_dataset = np.array(mfes)
     mfe_2d = mfe_dataset[:, np.newaxis]
     features, bn_size = genFeature(seqs, y,signal)
-    # 在轴 1 上拼接 a 和 b
+
     feature_dataset = np.concatenate((mfe_2d, features), axis=1)
     X_dataset = encode(seqs, strs)
     X_train = one_hot_wrap(X_dataset, MAX_LEN, DIM_ENC)
@@ -400,7 +389,7 @@ def fold5CV(train_file, val_file, MAX_LEN, DIM_ENC,signal):
 
     x_validation_segment, y_validation_segment, feature_validation_segment = \
         import_cv_val_data(val_file, MAX_LEN,DIM_ENC,signal)
-    print("数据向量化完成！")
+
     return x_train_segment, y_train_segment, x_validation_segment, \
            y_validation_segment, feature_train_segment, feature_validation_segment, bn_size
     # 20231228_sam++ <<
@@ -411,10 +400,9 @@ def fold5CV(train_file, val_file, MAX_LEN, DIM_ENC,signal):
 def pads(sequences,maxlen=None,dtype="int32",padding="pre",truncating="pre",value=0.0,):
   if maxlen is None:
    maxlen = max(len(seq) for seq in sequences)
-  # 创建填充后的数组
+
   padded_sequences = np.zeros((len(sequences), maxlen), dtype=dtype)
 
-  # 填充或裁剪序列
   for i, seq in enumerate(sequences):
    if padding == "pre":
     if truncating == "pre":
@@ -427,7 +415,7 @@ def pads(sequences,maxlen=None,dtype="int32",padding="pre",truncating="pre",valu
     else:
      padded_seq = seq[:maxlen]
 
-   # 将填充后的序列赋值给填充数组
+
    padded_sequences[i, -len(padded_seq):] = padded_seq
 
   return padded_sequences
@@ -501,7 +489,6 @@ def wrtrst(filehandle, rst, nfold=0, nepoch=0):
     return
 
 def to_categorical(y, num_classes=None, dtype="float32"):
-    # 若y为0则，则将第0个位置置为1，即正[1, 0]，若y为1，则将第一个位置置为1，即负样本[0, 1]
     y = np.array(y, dtype="int")
     input_shape = y.shape
     if input_shape and input_shape[-1] == 1 and len(input_shape) > 1:

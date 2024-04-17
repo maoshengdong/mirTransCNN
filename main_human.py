@@ -43,11 +43,11 @@ def write_to_file(model_path, sensitivity, specifity, accuracy, f1_score, mcc, r
   """ write the performace parameters to file
   """
   fd = open("model_performance", "a+")
-  # 获取当前时间
+
   import datetime
   current_time = datetime.datetime.now()
 
-  # 格式化为字符串，例如：2023-11-13_14:30:00
+
   formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
   fd.write(f"{formatted_time} {model_path} _performance:")
 

@@ -73,7 +73,7 @@ def cv():
   avg_ppv = np.mean(ppv_scores)
   avg_pr_ruc = np.mean(pr_auc_scores)
 
-  # 打印结果
+
   print("average Sensitivity：", avg_sensitivity)
   print("average Specificity：", avg_specificity)
   print("average gmean:", avg_gmean)

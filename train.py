@@ -25,7 +25,6 @@ def Train(x_dataset,y_dataset, f_dataset, i, signal, bn_size):
     f_tensor = torch.Tensor(f_dataset).to(device=device)
     dataset = TensorDataset(x_tensor, f_tensor, y_tensor)
 
-    # 划分训练集和验证集
     train_size = int(0.8 * len(dataset))
     val_size = len(dataset) - train_size
     train_dataset, val_dataset = torch.utils.data.random_split(dataset, [train_size, val_size])
@@ -74,7 +73,6 @@ def Train(x_dataset,y_dataset, f_dataset, i, signal, bn_size):
         train_acc_scores.append(train_accuracy)
 
         # scheduler.step()    #sam++ 20231207
-        # 在每个 epoch 结束后，可以在验证集上计算损失或其他指标
         predictions = []
         true_labels = []
         model.eval()
@@ -111,7 +109,6 @@ def Train(x_dataset,y_dataset, f_dataset, i, signal, bn_size):
         MCCs.append(rst[8])
         epochs.append(epoch)
         # avg_train_loss = total_train_loss / len(train_loader)
-        # # 输出每个 epoch 的训练和验证损失
         # print(f'Epoch {epoch + 1}/{num_epochs}, Train Loss: {avg_train_loss}, Val Loss: {avg_val_loss}, Val Accuracy: {accuracy}')
         # aucv, f1v, prev, recv = get_error(laball[:, 0], preall[:, 0])
         # early stop
@@ -131,7 +128,6 @@ def Train(x_dataset,y_dataset, f_dataset, i, signal, bn_size):
         #         print(f"Best epoch {best_epoch}: F1 {f1_max}")
         #     break
     flag = 'valid'
-    # 绘制损失图
     Plt_loss(train_losses, epochs, i, signal)
     Plt_SE(sentitivitys, flag, i, signal)
     Plt_SP(specificitys, flag, i, signal)

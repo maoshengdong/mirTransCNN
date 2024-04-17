@@ -3,7 +3,6 @@ import numpy as np
 
 from genFeatures.CodingClass import run
 from genFeatures.EntropyClass import entropy_equation
-from genFeatures.ExtractionTechniques import nacSeq, tncSeq, dncSeq
 from genFeatures.FickettScore import calculate_sequences
 from genFeatures.FourierClass import binary_fourier
 from genFeatures.TsallisEntropy import tsallis_entropy

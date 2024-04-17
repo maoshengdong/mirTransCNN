@@ -79,7 +79,7 @@ def wrtrst(filehandle, rst, nepoch=0):
  # import datetime
  # current_time = datetime.datetime.now()
  #
- # # 格式化为字符串，例如：2023-11-13_14:30:00
+
  # formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
  # filehandle.write(f"{formatted_time}_miRe2e1_performance:")
  # # fd.write(str(time.time())+model_path + "_performance:")
@@ -136,7 +136,7 @@ def Plt_ROC(true_labels, predictions,flag):
      plt.savefig(os.path.join(subdirectory,"ROC_curve_" + flag + ".png"))
 
 
-     print("ROC曲线已保存")
+     print("ROC curve is saved")
 
 
 def Plt_CM(predictions, Y_test, flag):
@@ -145,7 +145,7 @@ def Plt_CM(predictions, Y_test, flag):
      R = np.asarray(np.uint8([sublist[1] for sublist in Y_test]))
      CM = metrics.confusion_matrix(R, class_label, labels=None)
      CM = np.double(CM)
-     # 绘制混淆矩阵
+
      plt.figure()
      plt.imshow(CM, interpolation='nearest', cmap=plt.cm.Blues)
      plt.title('Confusion Matrix')
@@ -160,7 +160,7 @@ def Plt_CM(predictions, Y_test, flag):
 
 def Plt_PR(predictions,Y_test,flag):
      subdirectory = mkdir()
-     # 绘制 PR 曲线
+
      precision, recall, _ = precision_recall_curve(Y_test[:, 0], predictions[:, 0])
      plt.figure()
      plt.plot(recall, precision, label='PR Curve')
@@ -174,7 +174,7 @@ def Plt_PR(predictions,Y_test,flag):
 
 def Plt_F1(predictions, Y_test, flag):
      subdirectory = mkdir()
-     # 绘制 F1 曲线
+
      thresholds = np.linspace(0, 1, 100)
      f1_scores = []
      Epochs = range(1, len(predictions) + 1)
@@ -195,7 +195,7 @@ def Plt_F1(predictions, Y_test, flag):
 
 def Plt_ACC(predictions, Y_test, flag):
      subdirectory = mkdir()
-     # 绘制 ACC 曲线
+
      thresholds = np.linspace(0, 1, 100)
      acc_scores = []
      Epochs = range(1, len(predictions) + 1)
@@ -216,7 +216,7 @@ def Plt_ACC(predictions, Y_test, flag):
 
 def Plt_SE_SP(predictions, Y_test, flag):
      subdirectory = mkdir()
-     # 绘制 sensitivity 和 specificity 曲线
+
      thresholds = np.linspace(0, 1, 100)
      sensitivity_scores = []
      specificity_scores = []
@@ -276,7 +276,7 @@ def Plt_Train_Acc(train_acc_scores,flag,fold,signal):
 
 def Plt_SE_SP(predictions, Y_test, flag):
      subdirectory = mkdir()
-     # 绘制 sensitivity 和 specificity 曲线
+
      thresholds = np.linspace(0, 1, 100)
      sensitivity_scores = []
      specificity_scores = []
@@ -301,21 +301,20 @@ def Plt_loss(train_losses, epochs,fold,signal):
     subdirectory = mkdir()
     min_loss_index = np.argmin(train_losses)
     min_loss_value = train_losses[min_loss_index]
-    # 绘制损失图
+
     plt.figure()
     plt.plot(train_losses, label='Train Loss')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.title('Training Loss over Epochs')
     plt.legend()
-    # 在图中标记最低的损失值
-    # 标记最低损失及其位置
+
     min_loss = min(train_losses)
     min_loss_epoch = epochs[train_losses.index(min_loss)]
     plt.annotate(f'Min Loss: {min_loss:.4f}', xy=(min_loss_epoch, min_loss),
                  xytext=(min_loss_epoch, min_loss + 0.1),
                  arrowprops=dict(facecolor='black', arrowstyle='-', linewidth=0.5), horizontalalignment='right')
-    # 在最低损失值所在的位置画一条垂直于 x 轴的直线
+
     plt.axvline(x=min_loss_epoch, color='gray', linestyle='--')
     plt.savefig(os.path.join(subdirectory, 'training_loss_plot'+signal+'.png'))
 
@@ -347,7 +346,7 @@ def Plt_SP(specificity, flag,fold,signal):
 
 def Plt_F1_Score(f1_scores, flag,fold,signal):
     subdirectory = mkdir()
-    # 绘制 F1 曲线
+
     epochs = range(1, len(f1_scores) + 1)
     plt.figure()
     plt.plot(epochs, f1_scores, label='F1 Score')
@@ -360,7 +359,7 @@ def Plt_F1_Score(f1_scores, flag,fold,signal):
 
 def Plt_gmean(g_means, flag,fold,signal):
     subdirectory = mkdir()
-    # 绘制 F1 曲线
+
     epochs = range(1, len(g_means) + 1)
     plt.figure()
     plt.plot(epochs, g_means, label='g-mean')
@@ -374,7 +373,7 @@ def Plt_gmean(g_means, flag,fold,signal):
 
 def Plt_MCC(mccs, flag,fold,signal):
     subdirectory = mkdir()
-    # 绘制 F1 曲线
+
     epochs = range(1, len(mccs) + 1)
     plt.figure()
     plt.plot(epochs, mccs, label='mcc')
@@ -388,7 +387,7 @@ def Plt_MCC(mccs, flag,fold,signal):
 
 def Plt_PPV(ppv, flag,fold,signal):
     subdirectory = mkdir()
-    # 绘制 F1 曲线
+
     epochs = range(1, len(ppv) + 1)
     plt.figure()
     plt.plot(epochs, ppv, label='ppv')

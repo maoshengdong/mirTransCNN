@@ -21,7 +21,7 @@ def genFeature(X,Y,signal):
             pass
         else:
             bn_size = 1
-            # 如果x_train為空，則跳出
+
             print("X_train is empty, exiting...")
             return X_train, bn_size
         Y_train = T[:, -1]
@@ -54,11 +54,8 @@ def genFeature(X,Y,signal):
     else:
         data = pd.read_csv(f"./feature_data/optimumDataset_{signal}.csv", header=None)
         dataset_np = data.to_numpy()
-        print("数据集的形状:", dataset_np.shape)
+
         X_train = dataset_np[:, :-1]
         labels = dataset_np[:, -1]
-        print("特征的形状:", X_train.shape)
-        print("标签的形状:", labels.shape)
-    print("所选特征的列数:", X_train.shape[1])
     bn_size = X_train.shape[1] + 1
     return X_train, bn_size

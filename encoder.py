@@ -27,7 +27,6 @@ class EncoderStr(nn.Module):
         super(EncoderStr, self).__init__()
         layers = []
         layers.append(nn.ReLU())
-        # sam++ 批量标准化，有助于缓解梯度消失问题，加速训练收敛
         layers.append(nn.BatchNorm1d(in_deep))
         layers.append(nn.Conv1d(in_deep, width, kernel_size=3, padding=1))
         # sam++ n_blocks:3   n_resnets:1

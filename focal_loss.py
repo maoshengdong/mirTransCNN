@@ -12,11 +12,9 @@ class FocalLoss(nn.Module):
         self.reduce = reduce
 
         if self.logits:
-            # sam++ 使用binary_cross_entropy_with_logits
             self.BCE_loss = nn.BCEWithLogitsLoss(reduction='none',
                                                  pos_weight=coef.to(device))
         else:
-            # sam++ 也是使用binary_cross_entropy
             self.BCE_loss = nn.BCELoss(reduction='none')
 
     def forward(self, inputs, targets):

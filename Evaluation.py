@@ -27,12 +27,9 @@ def testModel(model_path,x_test_dataset, y_test_dataset, mfe_test_dataset, Kfold
     x_tensor = torch.Tensor(x_test_dataset).to(device=device)
     y_tensor = torch.Tensor(y_test_dataset).to(device=device)
     mfe_tensor = torch.Tensor(mfe_test_dataset).to(device=device)
-    # 将输入数据和标签组合成 TensorDataset
     test_dataset = TensorDataset(x_tensor, y_tensor, mfe_tensor)
-    # 使用 DataLoader 加载测试集
     test_loader = DataLoader(test_dataset, batch_size=10, shuffle=False)
 
-    # 步骤 4: 在测试集上进行推理
     predictions = []
     true_labels = []
     preall = np.empty((0, 2))
@@ -43,7 +40,6 @@ def testModel(model_path,x_test_dataset, y_test_dataset, mfe_test_dataset, Kfold
         for inputs, labels, mfes in test_loader:    #20231218_sam++
 
             outputs = model(inputs, mfes) #20231218_sam++
-            # 获取模型的预测结果
             _, predicted = torch.max(outputs, 1)
 
             predictions.extend(outputs.argmax(1).tolist())
@@ -60,20 +56,17 @@ def testModel(model_path,x_test_dataset, y_test_dataset, mfe_test_dataset, Kfold
 
 
 
-    # 计算评价指标
     accuracy = accuracy_score(true_labels, predictions)
     roc_auc = roc_auc_score(true_labels, predictions)
     pr_auc = average_precision_score(true_labels, predictions)
     f1 = f1_score(true_labels, predictions)
     mcc = matthews_corrcoef(true_labels, predictions)
-    # 计算 Sensitivity（Recall）
     sensitivity = recall_score(true_labels, predictions)
 
-    # 计算混淆矩阵
     conf_matrix = confusion_matrix(true_labels, predictions)
-    # 提取 True Positives, False Negatives, True Negatives, False Positives
+
     tn, fp, fn, tp = conf_matrix.ravel()
-    # 计算 Specificity
+
     specificity = tn / (tn + fp)
     gmean = np.sqrt(sensitivity*specificity)
     ppv = tp / (tp + fp)
